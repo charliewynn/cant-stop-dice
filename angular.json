@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "baseHref": "cant-stop-dice",
+            "baseHref": "/cant-stop-dice",
             "browser": "src/main.ts",
             "outputPath": "dist/cant-stop-dice",
             "deleteOutputPath": true,
