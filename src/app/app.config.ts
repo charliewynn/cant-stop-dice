@@ -6,7 +6,7 @@ import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    { provide: APP_BASE_HREF, useValue: '/cant-stop-dice/' },
+    { provide: APP_BASE_HREF, useValue: '/cant-stop-dice' },
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes)
