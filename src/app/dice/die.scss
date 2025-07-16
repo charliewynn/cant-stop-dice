@@ -1,0 +1,19 @@
+.dice {
+    font-size: 5rem;
+    width: 5.5rem;
+    height: 5.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 2px solid #eee;
+}
+
+.dice-labels {
+    display: flex;
+    gap: 2rem;
+    font-size: 1.2rem;
+    color: #888;
+}
