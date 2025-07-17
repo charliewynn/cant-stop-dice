@@ -1,1 +1,26 @@
-<div class="dice">🎲</div>
+
+<svg class="dice" [class.rolling]="rolling" [attr.data-value]="result" width="48" height="48" viewBox="0 0 48 48">
+    <rect x="0" y="0" width="48" height="48" rx="8" fill="#fff" stroke="#000" stroke-width="2"/>
+    <!-- Pip positions -->
+    @if (result == 1 || result == 3 || result == 5) {
+        <circle cx="24" cy="24" r="3" fill="#000"/>
+    }
+    @if (result >= 2) {
+        <circle cx="14" cy="14" r="3" fill="#000"/>
+    }
+    @if (result >= 2) {
+        <circle cx="34" cy="34" r="3" fill="#000"/>
+    }
+    @if (result >= 4) {
+        <circle cx="34" cy="14" r="3" fill="#000"/>
+    }
+    @if (result >= 4) {
+        <circle cx="14" cy="34" r="3" fill="#000"/>
+    }
+    @if (result == 6) {
+        <circle cx="14" cy="24" r="3" fill="#000"/>
+    }
+    @if (result == 6) {
+        <circle cx="34" cy="24" r="3" fill="#000"/>
+    }
+</svg>

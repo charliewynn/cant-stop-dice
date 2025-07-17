@@ -9,11 +9,16 @@
     border-radius: 1rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     border: 2px solid #eee;
-}
+    &.rolling {
+        animation: spin 0.4s linear infinite;
 
-.dice-labels {
-    display: flex;
-    gap: 2rem;
-    font-size: 1.2rem;
-    color: #888;
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    }
 }

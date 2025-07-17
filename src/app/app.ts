@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, computed, viewChild, viewChildren } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Die } from "./dice/die";
+import { DieCalcHelper } from './dice/dieCalcHelper';
 
 @Component({
   selector: 'app-root',
@@ -9,5 +10,40 @@ import { Die } from "./dice/die";
   styleUrl: './app.scss'
 })
 export class App {
+
+  dice = viewChildren(Die);
+
+  chosenPair: number[] = [0, 0];
   protected title = 'cant-stop-dice';
+  possiblePairs: number[][] = [];
+
+  toastMessage: string = '';
+  toastTimeout: any;
+
+  showToast(message: string) {
+    this.toastMessage = message;
+    clearTimeout(this.toastTimeout);
+    this.toastTimeout = setTimeout(() => {
+      this.toastMessage = '';
+    }, 2500);
+  }
+
+  async rollDice() {
+    if(this.chosenPair.length === 0){
+      this.showToast("Please select a pair before rolling the dice.");
+      return;
+    }
+    console.log("Rolling dice...");
+
+    this.chosenPair = [];
+    const rollingDies = computed(() => this.dice().map(die => die.rollDice()));
+    const dies = await Promise.all(rollingDies());
+    const possiblePairs = DieCalcHelper.CalculatePairs(dies[0], dies[1], dies[2], dies[3]);
+    this.possiblePairs = possiblePairs;
+    this.chosenPair = [];
+  }
+
+  selectPair(pair: number[]) {
+    this.chosenPair = pair;
+  }
 }
