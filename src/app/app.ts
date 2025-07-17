@@ -11,6 +11,27 @@ import { DieCalcHelper } from './dice/dieCalcHelper';
 })
 export class App {
 
+  checkEvent($event: KeyboardEvent) {
+    if (!$event || !$event.key || $event.key === 'Tab') {
+      return false; // Ignore Tab key
+    }
+    $event.preventDefault(); // Prevent default action
+    if ($event.key === 'Enter' || $event.key === ' ') {
+      return true;
+    }
+    return false;
+  }
+  keydownRollDice($event: KeyboardEvent) {
+    if (this.checkEvent($event)) {
+      this.rollDice();
+    }
+  }
+
+  keydownSelectPair($event: KeyboardEvent, pair: number[]) {
+    if (this.checkEvent($event)) {
+      this.selectPair(pair);
+    }
+  }
   dice = viewChildren(Die);
 
   chosenPair: number[] = [0, 0];
@@ -29,7 +50,7 @@ export class App {
   }
 
   async rollDice() {
-    if(this.chosenPair.length === 0){
+    if (this.chosenPair.length === 0) {
       this.showToast("Please select a pair before rolling the dice.");
       return;
     }

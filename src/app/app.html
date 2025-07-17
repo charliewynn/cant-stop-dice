@@ -1,6 +1,6 @@
 <main class="main">
   <div class="split-container">
-    <div class="dice-section" (click)="rollDice()">
+    <div tabindex="0" class="dice-section" (click)="rollDice()" (keydown)="keydownRollDice($event)">
       <die />
       <die />
       <die />
@@ -8,16 +8,18 @@
     </div>
     <div class="output-section">
       @for(pair of this.possiblePairs; track pair[0] + '-' + pair[1]){
-      <div class="pair-label" (click)="selectPair(pair)" [class.chosen]="chosenPair[0] === pair[0] && chosenPair[1] === pair[1]">
+      <div tabindex="0" class="pair-label" (click)="selectPair(pair)"
+        [class.chosen]="chosenPair[0] === pair[0] && chosenPair[1] === pair[1]"
+        (keydown)="keydownSelectPair($event, pair)">
         {{pair[0]}} &amp; {{pair[1]}}
       </div>
       }
     </div>
   </div>
   @if(toastMessage) {
-    <div class="toast">
-      {{ toastMessage }}
-    </div>
+  <div class="toast">
+    {{ toastMessage }}
+  </div>
   }
 </main>
 
