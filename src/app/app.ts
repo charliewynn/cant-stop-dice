@@ -10,32 +10,11 @@ import { DieCalcHelper } from './dice/dieCalcHelper';
   styleUrl: './app.scss'
 })
 export class App {
+  protected title = 'cant-stop-dice';
 
-  checkEvent($event: KeyboardEvent) {
-    if (!$event || !$event.key || $event.key === 'Tab') {
-      return false; // Ignore Tab key
-    }
-    $event.preventDefault(); // Prevent default action
-    if ($event.key === 'Enter' || $event.key === ' ') {
-      return true;
-    }
-    return false;
-  }
-  keydownRollDice($event: KeyboardEvent) {
-    if (this.checkEvent($event)) {
-      this.rollDice();
-    }
-  }
-
-  keydownSelectPair($event: KeyboardEvent, pair: number[]) {
-    if (this.checkEvent($event)) {
-      this.selectPair(pair);
-    }
-  }
   dice = viewChildren(Die);
 
   chosenPair: number[] = [0, 0];
-  protected title = 'cant-stop-dice';
   possiblePairs: number[][] = [];
 
   toastMessage: string = '';
@@ -57,14 +36,40 @@ export class App {
     console.log("Rolling dice...");
 
     this.chosenPair = [];
+    // get list of dice rolling Promises
     const rollingDies = computed(() => this.dice().map(die => die.rollDice()));
     const dies = await Promise.all(rollingDies());
+    console.log("Dice rolled:", dies);
     const possiblePairs = DieCalcHelper.CalculatePairs(dies[0], dies[1], dies[2], dies[3]);
     this.possiblePairs = possiblePairs;
+    console.log("Possible pairs:", possiblePairs.map(p => `[${p[0]} & ${p[1]}]`));
     this.chosenPair = [];
   }
 
   selectPair(pair: number[]) {
     this.chosenPair = pair;
+  }
+
+  keydownRollDice($event: KeyboardEvent) {
+    if (this.checkEvent($event)) {
+      this.rollDice();
+    }
+  }
+
+  keydownSelectPair($event: KeyboardEvent, pair: number[]) {
+    if (this.checkEvent($event)) {
+      this.selectPair(pair);
+    }
+  }
+
+  checkEvent($event: KeyboardEvent) {
+    if (!$event || !$event.key || $event.key === 'Tab') {
+      return false; // Ignore Tab key
+    }
+    $event.preventDefault(); // Prevent default action
+    if ($event.key === 'Enter' || $event.key === ' ') {
+      return true;
+    }
+    return false;
   }
 }

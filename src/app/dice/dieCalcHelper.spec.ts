@@ -1,4 +1,3 @@
-import { TestBed } from '@angular/core/testing';
 import { DieCalcHelper } from './dieCalcHelper';
 
 describe('DieCalcHelper', () => {
