@@ -1,4 +1,4 @@
-import { Component, computed, viewChild, viewChildren } from '@angular/core';
+import { Component, computed, ElementRef, ViewChild, viewChild, viewChildren } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Die } from "./dice/die";
 import { DieCalcHelper } from './dice/dieCalcHelper';
@@ -10,25 +10,33 @@ import { DieCalcHelper } from './dice/dieCalcHelper';
   styleUrl: './app.scss'
 })
 export class App {
+
   protected title = 'cant-stop-dice';
 
   dice = viewChildren(Die);
+  @ViewChild("modal") modal: ElementRef | undefined;
 
   chosenPair: number[] = [0, 0];
   possiblePairs: number[][] = [];
 
   toastMessage: string = '';
-  toastTimeout: any;
+  toastTimeout: number | null = null;
+
+  showModal: boolean = false;
 
   showToast(message: string) {
     this.toastMessage = message;
-    clearTimeout(this.toastTimeout);
+    this.toastTimeout && clearTimeout(this.toastTimeout);
     this.toastTimeout = setTimeout(() => {
       this.toastMessage = '';
     }, 2500);
   }
 
-  async rollDice() {
+  async rollDice($event: KeyboardEvent | null = null) {
+    if ($event && !this.checkEvent($event)) {
+      return; // Ignore non-Enter/Space key events
+    }
+
     if (this.chosenPair.length === 0) {
       this.showToast("Please select a pair before rolling the dice.");
       return;
@@ -46,23 +54,30 @@ export class App {
     this.chosenPair = [];
   }
 
-  selectPair(pair: number[]) {
-    this.chosenPair = pair;
-  }
-
-  keydownRollDice($event: KeyboardEvent) {
-    if (this.checkEvent($event)) {
-      this.rollDice();
+  selectPair(pair: number[], $event: KeyboardEvent | null = null) {
+    if (!$event || this.checkEvent($event)) {
+      this.chosenPair = pair;
     }
   }
 
-  keydownSelectPair($event: KeyboardEvent, pair: number[]) {
-    if (this.checkEvent($event)) {
-      this.selectPair(pair);
+  showInfoModal($event: KeyboardEvent | null = null) {
+    if ($event && !this.checkEvent($event)) {
+      return; // Ignore non-Enter/Space key events
+    }
+    this.showModal = true;
+    this.modal?.nativeElement.focus();
+
+  }
+  onModalKeydown($event: KeyboardEvent, isClose: boolean) {
+    if ($event.key === 'Escape') {
+      this.showModal = false;
+    }
+    if (isClose && ($event.key === 'Enter' || $event.key === ' ')) {
+      this.showModal = false;
     }
   }
 
-  checkEvent($event: KeyboardEvent) {
+  private checkEvent($event: KeyboardEvent) {
     if (!$event || !$event.key || $event.key === 'Tab') {
       return false; // Ignore Tab key
     }
