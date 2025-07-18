@@ -1,11 +1,12 @@
 <main class="main">
   <div class="split-container">
-    <div [tabindex]="showModal ? -1 : 0" class="dice-section" (click)="rollDice()" (keydown)="rollDice($event)">
+    <div [tabindex]="showModal ? -1 : 0" class="dice-section" (click)="rollDice()" (keydown)="rollDice($event)" aria-label="Press to roll the die">
       <die />
       <die />
       <die />
       <die />
     </div>
+
     <div class="output-section">
       @for(pair of this.possiblePairs; track pair[0] + '-' + pair[1]){
       <div [tabindex]="showModal ? -1 : 0" class="pair-label" (click)="selectPair(pair)"
@@ -15,13 +16,14 @@
       }
     </div>
   </div>
+
   @if(toastMessage) {
     <div class="toast">
       {{ toastMessage }}
     </div>
   }
 
-  <div class="info-button" (click)="showInfoModal()" tabindex="0" role="button" aria-label="Show info modal"
+  <div class="info-button" (click)="showInfoModal()" tabindex="0" role="button" aria-label="Show info"
     (keydown)="showInfoModal($event)">
     <svg width="40" height="40" viewBox="0 0 40 40" aria-label="Info icon" role="img" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="20" cy="20" r="15" stroke="currentColor" stroke-width="2"/>
@@ -32,10 +34,14 @@
   @if(showModal) {
     <div #modal class="modal" tabindex="0" (click)="showModal = false" (keydown)="onModalKeydown($event, false)">
       <div class="modal-content" (click)="$event.stopPropagation()">
-      <span class="close" tabindex="0" (keydown)="onModalKeydown($event, true)" (click)="showModal = false">&times;</span>
-      <h2>How to Play</h2>
-      <p>Click the dice to roll them. Select pairs of numbers to score points.</p>
-      <p>Press Enter or Space on the info icon to show this modal.</p>
+      <span class="modal-close" tabindex="0" (keydown)="onModalKeydown($event, true)" (click)="showModal = false">&times;</span>
+      <h2>What is this?</h2>
+      <p>
+        <a target="_blank" href="https://en.wikipedia.org/wiki/Can%27t_Stop_(board_game)">Can't Stop</a> is a board game where you roll 4 die and move according to how you choose to pair the dice.
+      </p>
+      <p>It can be a bit tedious to add up each of your possible pairs of dice.. This is a tool to simplify this.</p>
+      <p>Click the dice to roll them. Possible pairs of dice are calculated for you.</p>
+      <p>To help prevent accidentally re-rolling you are required to select a pair before you can re-roll.</p>
       </div>
     </div>
   }

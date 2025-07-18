@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 
 @Component({
     selector: 'die',
@@ -11,7 +11,11 @@ export class Die {
     private minRollTime: number = 500;
     private maxRollTime: number = 1500;
     protected rolling: boolean = false;
+    ariaLabel: string = "un-rolled die";
     #result: number = 0;
+    @ViewChild("die")
+    die!: ElementRef;
+
 
     public get result(): number {
         return this.#result;
@@ -32,6 +36,7 @@ export class Die {
         clearInterval(rollingInterval);
         this.rolling = false;
         this.result = newResult;
+        this.die.nativeElement.ariaLabel = "Die with value " + newResult;
         return newResult;
     }
 }

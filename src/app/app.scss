@@ -4,10 +4,13 @@
     flex-direction: column;
 
     @media (max-width: 600px) {
-      flex-direction: column;
+        flex-direction: column;
     }
     @media (min-width: 601px) {
-      flex-direction: row;
+        flex-direction: row;
+    }
+    @media (min-width: 1024px) {
+        flex-direction: column;
     }
   }
 
@@ -28,9 +31,9 @@
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
       &.chosen {
-        background-color: #d1e7dd;
+        background-color: #e5e5e5;
         color: #0f5132;
-        border: 2px solid #0f5132;
+        border: 1px solid #bababa;
       }
     }
   }
@@ -99,7 +102,7 @@
         max-width: 500px;
         width: 100%;
         position: relative;
-        .close {
+        .modal-close {
             position: absolute;
             top: 1rem;
             right: 1rem;

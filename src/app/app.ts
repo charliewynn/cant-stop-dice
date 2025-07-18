@@ -14,7 +14,9 @@ export class App {
   protected title = 'cant-stop-dice';
 
   dice = viewChildren(Die);
-  @ViewChild("modal") modal: ElementRef | undefined;
+  
+  @ViewChild("modal")
+  modal!: ElementRef;
 
   chosenPair: number[] = [0, 0];
   possiblePairs: number[][] = [];
@@ -65,7 +67,9 @@ export class App {
       return; // Ignore non-Enter/Space key events
     }
     this.showModal = true;
-    this.modal?.nativeElement.focus();
+    setTimeout(() => {
+      this.modal.nativeElement.focus();
+    }, 1);
 
   }
   onModalKeydown($event: KeyboardEvent, isClose: boolean) {

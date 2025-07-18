@@ -1,5 +1,5 @@
 
-<svg class="dice" [class.rolling]="rolling" [attr.data-value]="result" width="48" height="48" viewBox="0 0 48 48">
+<svg #die aria-label="Unrolled Die" tabindex="-1" class="die" [class.rolling]="rolling" [attr.data-value]="result" width="48" height="48" viewBox="0 0 48 48">
     <rect x="0" y="0" width="48" height="48" rx="8" fill="#fff" stroke="#000" stroke-width="2"/>
     <!-- Pip positions -->
     @if (result == 1 || result == 3 || result == 5) {
